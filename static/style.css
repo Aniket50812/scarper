@@ -15,9 +15,10 @@ header {
 
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Ensure items start at the left */
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .navbar li {
@@ -89,4 +90,13 @@ header {
 
 .book-card .btn:hover {
     background-color: #218838;
+}
+
+.navbar-right {
+    margin-left: auto; /* Push the right items to the far end */
+}
+
+.navbar-right li {
+    display: inline-block;
+    margin: 0 10px;
 }

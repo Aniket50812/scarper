@@ -37,12 +37,14 @@ header {
 
 #categories {
     margin: 20px;
+    font-size: 20px;
+
 }
 
 #books {
     margin: 20px;
     padding: 15px;
-    background-color: white;
+    background-color: rgb(247, 206, 206);
     border-radius: 15px;
     text-align: center;
     font-size: 20px;
@@ -51,13 +53,13 @@ header {
 .book-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 22px;
 }
 
 .book-card {
     background-color: #ffffff;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease-in-out;
@@ -93,10 +95,29 @@ header {
 }
 
 .navbar-right {
-    margin-left: auto; /* Push the right items to the far end */
+    margin-left: auto;
 }
 
 .navbar-right li {
     display: inline-block;
     margin: 0 10px;
 }
+
+
+#offers {
+    text-align: center;
+    font-size: 20px;
+    padding: 40px;
+    background-color: #f2f2f2;
+    border-radius: 100px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Hover effect */
+  #offers:hover {
+    transform: scale(1.1);  
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);  
+    background-color: #e0e0e0;  
+  }
+  

@@ -1,41 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books to Hunt</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Welcome to Books to Hunt</h1>
-        <p>Your one-stop shop for amazing books!</p>
-    </header>
-
-    <section id="books">
-        <h2 class="booklist-title">Booklist</h2>
-        <div class="book-list">
-            {% for book in books %}
-                <div class="book">
-                    <h3>{{ book.title }}</h3>
-                    <p><strong>Author:</strong> {{ book.author }}</p>
-                    <p><strong>Price:</strong> {{ book.price }}</p>
-                    <p><strong>Availability:</strong> {{ book.availability }}</p>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Books to Hunt</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html> -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,29 +8,43 @@
 </head>
 <body>
     <header>
+        <nav>
+            <ul class="navbar">
+                <li><a href="{{ url_for('index') }}" class="home-btn">Home</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <div class="navbar-right">
+                    <li><a href="{{ url_for('offers_page') }}">Offers</a></li>
+                    <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                </div>
+            </ul>
+        </nav>
         <h1>Welcome to Books to Hunt</h1>
         <p>Your one-stop shop for amazing books!</p>
     </header>
 
+    <section id="categories">
+        <h2>Categories</h2>
+        <ul>
+            {% for category in categories %}
+                <li><a href="{{ url_for('category', category_name=category) }}">{{ category }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+
     <section id="books">
-        <h2 class="booklist-title">Booklist</h2>
+        <h2>Books</h2>
         <div class="book-list">
             {% for book in books %}
-                <div class="book">
+                <div class="book-card">
                     <h3>{{ book.title }}</h3>
                     <p><strong>Author:</strong> {{ book.author }}</p>
                     <p><strong>Price:</strong> {{ book.price }}</p>
                     <p><strong>Availability:</strong> {{ book.availability }}</p>
-                    <p><strong>Quantity:</strong> {{ book.quantity }}</p> <!-- Display the quantity here -->
+                    <a href="#" class="btn">Add to Cart</a>
                 </div>
             {% endfor %}
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2025 Books to Hunt</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

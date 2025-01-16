@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="navbar">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('offers_page') }}">Offers</a></li>
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </nav>
+        <h1>Special Offers</h1>
+    </header>
+
+    <section id="offers">
+        <ul>
+            {% for offer in offers %}
+                <li>
+                    <h3>{{ offer.title }}</h3>
+                    <p>{{ offer.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</body>
+</html>

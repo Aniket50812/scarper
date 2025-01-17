@@ -1,8 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for, request
+import os
 
 app = Flask(__name__)
 
+# Generate a secret key using os.urandom(24)
+app.secret_key = os.urandom(24)
 
+# List of books and offers (you can use your existing data here)
 books = [
     {"title": "The Great Adventure", "author": "John Doe", "price": "₹1499", "availability": "In Stock", "category": "Adventure"},
     {"title": "Learning Python", "author": "Jane Smith", "price": "₹2199", "availability": "Out of Stock", "category": "Programming"},
@@ -54,14 +58,6 @@ books = [
     {"title": "Content Marketing Strategy", "author": "David Brown", "price": "₹2199", "availability": "In Stock", "category": "Marketing"},
     {"title": "Growth Hacking Techniques", "author": "James Stone", "price": "₹2299", "availability": "In Stock", "category": "Marketing"},
     {"title": "Influencer Marketing Guide", "author": "Rachel Adams", "price": "₹2499", "availability": "In Stock", "category": "Marketing"},
-
-    # Adventure
-    {"title": "The Great Adventure", "author": "John Doe", "price": "₹1499", "availability": "In Stock", "category": "Adventure"},
-    {"title": "Journey to the Unknown", "author": "Jane Smith", "price": "₹1999", "availability": "In Stock", "category": "Adventure"},
-    {"title": "Exploring the World", "author": "Jake White", "price": "₹2199", "availability": "In Stock", "category": "Adventure"},
-    {"title": "The Wild Outdoors", "author": "Alice Cooper", "price": "₹2499", "availability": "In Stock", "category": "Adventure"},
-    {"title": "Adventure Awaits", "author": "Emma White", "price": "₹1699", "availability": "In Stock", "category": "Adventure"},
-    {"title": "The Lost Expedition", "author": "Robert Black", "price": "₹2299", "availability": "In Stock", "category": "Adventure"}
 ]
 
 offers = [
@@ -87,11 +83,54 @@ def offers_page():
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    cart_items = session.get('cart', {})
+    total_price = sum(item['quantity'] * item['price'] for item in cart_items.values())  # price already a float
+    return render_template('cart.html', cart=cart_items, total_price=total_price)
 
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/add_to_cart/<int:book_id>', methods=['POST'])
+def add_to_cart(book_id):
+    book = books[book_id]
+    cart = session.get('cart', {})
+    
+    price = float(book['price'][1:])  # Convert price to float (removing ₹ symbol)
+    
+    if str(book_id) in cart:
+        cart[str(book_id)]['quantity'] += 1
+    else:
+        cart[str(book_id)] = {
+            'title': book['title'],
+            'price': price,  # Store the price as float
+            'quantity': 1,
+        }
+    
+    session['cart'] = cart
+    return redirect(url_for('cart'))
+
+@app.route('/update_quantity', methods=['POST'])
+def update_quantity():
+    book_id = request.form['book_id']
+    action = request.form['action']
+    cart = session.get('cart', {})
+    
+    if book_id in cart:
+        if action == 'increase':
+            cart[book_id]['quantity'] += 1
+        elif action == 'decrease' and cart[book_id]['quantity'] > 1:
+            cart[book_id]['quantity'] -= 1
+        
+        session['cart'] = cart
+    
+    return redirect(url_for('cart'))
+
+@app.route('/proceed_to_pay')
+def proceed_to_pay():
+    cart_items = session.get('cart', {})
+    total_price = sum(item['quantity'] * item['price'] for item in cart_items.values())  # price already a float
+    return render_template('proceed_to_pay.html', cart=cart_items, total_price=total_price)
 
 if __name__ == '__main__':
     app.run(debug=True)

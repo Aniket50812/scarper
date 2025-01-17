@@ -11,9 +11,8 @@
         <nav>
             <ul class="navbar">
                 <li><a href="{{ url_for('index') }}" class="home-btn">Home</a></li>
-                <li><a href="#categories" class="categories-btn">Categories</a></li> <!-- Moved categories button here -->
+                <li><a href="#categories" class="categories-btn">Categories</a></li>
                 <div class="navbar-right">
-                    <li><a href="{{ url_for('offers_page') }}">Offers</a></li>
                     <li><a href="{{ url_for('cart') }}">Cart</a></li>
                     <li><a href="{{ url_for('login') }}">Login</a></li>
                 </div>
@@ -41,7 +40,9 @@
                     <p><strong>Author:</strong> {{ book.author }}</p>
                     <p><strong>Price:</strong> {{ book.price }}</p>
                     <p><strong>Availability:</strong> {{ book.availability }}</p>
-                    <a href="#" class="btn">Add to Cart</a>
+                    <form action="{{ url_for('add_to_cart', book_id=loop.index0) }}" method="POST">
+                        <button type="submit" class="btn">Add to Cart</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>

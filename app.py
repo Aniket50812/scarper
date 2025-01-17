@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# Updated list of books with categories
+
 books = [
     {"title": "The Great Adventure", "author": "John Doe", "price": "₹1499", "availability": "In Stock", "category": "Adventure"},
     {"title": "Learning Python", "author": "Jane Smith", "price": "₹2199", "availability": "Out of Stock", "category": "Programming"},
@@ -15,7 +15,6 @@ books = [
     {"title": "Intro to Web Development", "author": "Lily Green", "price": "₹1399", "availability": "Out of Stock", "category": "Web Development"},
     {"title": "AI in Practice", "author": "George Harris", "price": "₹2799", "availability": "In Stock", "category": "Artificial Intelligence"},
     
-    # Related Books
     # Mobile Development
     {"title": "Mobile App Development for Beginners", "author": "Sophia Lee", "price": "₹2399", "availability": "In Stock", "category": "Mobile Development"},
     {"title": "Android Development Essentials", "author": "David King", "price": "₹2599", "availability": "In Stock", "category": "Mobile Development"},
@@ -65,7 +64,6 @@ books = [
     {"title": "The Lost Expedition", "author": "Robert Black", "price": "₹2299", "availability": "In Stock", "category": "Adventure"}
 ]
 
-# Sample offers
 offers = [
     {"title": "Buy 1 Get 1 Free", "description": "Buy one book and get another one for free!"},
     {"title": "Buy 6 Books, Get 25% Off", "description": "Purchase six books and get a 25% discount on your total order."},
@@ -74,7 +72,7 @@ offers = [
 
 @app.route('/')
 def index():
-    categories = set(book['category'] for book in books)  # Extract unique categories
+    categories = set(book['category'] for book in books)  
     return render_template('index.html', books=books, categories=categories)
 
 @app.route('/category/<category_name>')

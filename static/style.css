@@ -6,13 +6,17 @@ body {
     padding: 0;
 }
 
+/* Navbar Section with Unique Background Color */
+.navbar-section {
+    background-color: #2a9d8f; /* Unique background color for the navbar */
+    padding: 20px 0;
+}
+
 /* Header */
 header {
-    background-color: #c0d64e;
-    color: white;
-    padding: 20px;
     text-align: center;
-    font-size: 21px;
+    font-size: 24px;
+    color: white; /* Title text color in the header */
 }
 
 /* Navbar */
@@ -22,8 +26,8 @@ header {
     align-items: center;
     list-style: none;
     margin: 0;
-    padding: 10px;
-    background-color: #333;
+    padding: 10px 0;
+    background-color: transparent; /* Make sure the navbar is transparent within the section */
 }
 
 .navbar li {
@@ -32,7 +36,7 @@ header {
 }
 
 .navbar a {
-    color: white;
+    color: white; /* Text color in navbar links */
     text-decoration: none;
     padding: 10px;
 }
@@ -63,6 +67,19 @@ header {
 
 .navbar-right li {
     margin-left: 15px;
+}
+
+/* Center the main title */
+.main-title {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.main-title h1 {
+    font-size: 36px;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 /* Categories Section */
@@ -99,7 +116,7 @@ header {
 }
 
 .book-card:hover {
-    transform: scale(1.05);  /* Slightly less scaling for a smoother effect */
+    transform: scale(1.50);
 }
 
 .book-card h3 {
@@ -121,7 +138,7 @@ header {
     border-radius: 5px;
     text-decoration: none;
     margin-top: 15px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .book-card .btn:hover {
@@ -141,7 +158,7 @@ header {
 
 /* Hover effect for offers */
 #offers:hover {
-    transform: scale(1.05);  
+    transform: scale(1.1);  
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);  
     background-color: #e0e0e0;  
 }
@@ -221,7 +238,7 @@ header {
     border-radius: 5px;
     text-decoration: none;
     margin-top: 20px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .btn:hover {
@@ -243,22 +260,4 @@ header {
     background-color: #218838;
     transform: scale(1.05);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-/* Hover effect for Cart Items */
-.cart-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Hover effect for Navbar Links */
-.navbar a:hover {
-    background-color: #444;
-    border-radius: 5px;
-    padding: 12px;
-}
-
-/* Hover effect for Quantity Buttons */
-.quantity-btn:hover {
-    background-color: #218838;
 }

@@ -1,4 +1,3 @@
-<!-- base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,22 +7,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul class="navbar">
-                <li><a href="{{ url_for('index') }}" class="home-btn">Home</a></li>
-                <li><a href="#categories" class="categories-btn">Categories</a></li>
-                <div class="navbar-center">
-                    <span class="navbar-title">Books to Hunt</span>
-                </div>
-                <div class="navbar-right">
-                    <li><a href="{{ url_for('cart') }}">Cart</a></li>
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                </div>
-            </ul>
-        </nav>
-    </header>
+
+    <!-- Navbar Section with Unique Background Color -->
+    <section class="navbar-section">
+        <header>
+            <nav>
+                <ul class="navbar">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('offers_page') }}">Offers</a></li>
+                    <li><a href="#categories" class="categories-btn">Categories</a></li>
+                  
+                    <div class="navbar-right">
+                        <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                    </div>
+                </ul>
+            </nav>
+        </header>
+    </section>
+
+    <!-- Page Content -->
+    <div class="main-title">
+        <h1>Books to Hunt</h1>
+    </div>
 
     {% block content %}{% endblock %}
+
 </body>
 </html>

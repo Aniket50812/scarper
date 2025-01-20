@@ -84,7 +84,7 @@ def offers_page():
 @app.route('/cart')
 def cart():
     cart_items = session.get('cart', {})
-    total_price = sum(item['quantity'] * item['price'] for item in cart_items.values())  # price already a float
+    total_price = sum(item['quantity'] * item['price'] for item in cart_items.values())  
     return render_template('cart.html', cart=cart_items, total_price=total_price)
 
 @app.route('/login')

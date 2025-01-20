@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books to Hunt</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul class="navbar">
-                <li><a href="{{ url_for('index') }}" class="home-btn">Home</a></li>
-                <li><a href="#categories" class="categories-btn">Categories</a></li>
-                <div class="navbar-right">
-                    <li><a href="{{ url_for('cart') }}">Cart</a></li>
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                </div>
-            </ul>
-        </nav>
-        <h1>Welcome to Books to Hunt</h1>
-        <p>Your one-stop shop for amazing books!</p>
-    </header>
+{% extends 'base.html' %}
 
+{% block content %}
     <section id="categories">
         <h2>Categories</h2>
         <ul>
@@ -47,5 +26,4 @@
             {% endfor %}
         </div>
     </section>
-</body>
-</html>
+{% endblock %}

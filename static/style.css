@@ -1,3 +1,4 @@
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f5e5e5;
@@ -5,6 +6,7 @@ body {
     padding: 0;
 }
 
+/* Header */
 header {
     background-color: #c0d64e;
     color: white;
@@ -13,12 +15,15 @@ header {
     font-size: 21px;
 }
 
+/* Navbar */
 .navbar {
     display: flex;
-    justify-content: flex-start; /* Ensure items start at the left */
-    list-style-type: none;
-    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
     margin: 0;
+    padding: 10px;
+    background-color: #333;
 }
 
 .navbar li {
@@ -29,18 +34,44 @@ header {
 .navbar a {
     color: white;
     text-decoration: none;
+    padding: 10px;
 }
 
 .home-btn {
     font-size: 24px;
 }
 
+/* Centered title in navbar */
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Navbar-right (Cart, Login) */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.navbar-right li {
+    margin-left: 15px;
+}
+
+/* Categories Section */
 #categories {
     margin: 20px;
     font-size: 20px;
-
 }
 
+/* Books Section */
 #books {
     margin: 20px;
     padding: 15px;
@@ -50,12 +81,14 @@ header {
     font-size: 20px;
 }
 
+/* Book List Grid */
 .book-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 22px;
 }
 
+/* Individual Book Card */
 .book-card {
     background-color: #ffffff;
     padding: 15px;
@@ -66,7 +99,7 @@ header {
 }
 
 .book-card:hover {
-    transform: scale(1.50);
+    transform: scale(1.05);  /* Slightly less scaling for a smoother effect */
 }
 
 .book-card h3 {
@@ -79,6 +112,7 @@ header {
     margin: 5px 0;
 }
 
+/* Button */
 .book-card .btn {
     display: inline-block;
     background-color: #28a745;
@@ -87,23 +121,14 @@ header {
     border-radius: 5px;
     text-decoration: none;
     margin-top: 15px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .book-card .btn:hover {
     background-color: #218838;
 }
 
-.navbar-right {
-    margin-left: auto;
-}
-
-.navbar-right li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-
+/* Offers Section */
 #offers {
     text-align: center;
     font-size: 20px;
@@ -112,12 +137,128 @@ header {
     border-radius: 100px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
-  }
-  
-  /* Hover effect */
-  #offers:hover {
-    transform: scale(1.1);  
+}
+
+/* Hover effect for offers */
+#offers:hover {
+    transform: scale(1.05);  
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);  
     background-color: #e0e0e0;  
-  }
-  
+}
+
+/* Cart Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Cart Item Layout */
+.cart-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Individual Cart Item */
+.cart-item {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33% - 20px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Cart Item Information */
+.cart-item-info {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Cart Item Quantity Controls */
+.cart-item-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-btn:hover {
+    background-color: #218838;
+}
+
+.quantity {
+    margin: 0 10px;
+    font-size: 18px;
+}
+
+/* Total Price Section */
+.cart-total {
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Button Styling */
+.btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Unique Styling for Proceed to Pay Button */
+.proceed-btn {
+    background-color: #28a745;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.proceed-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover effect for Cart Items */
+.cart-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover effect for Navbar Links */
+.navbar a:hover {
+    background-color: #444;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+/* Hover effect for Quantity Buttons */
+.quantity-btn:hover {
+    background-color: #218838;
+}

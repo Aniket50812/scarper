@@ -1,51 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proceed to Payment</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
-        }
-        h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-        .btn {
-            padding: 12px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <div class="container">
         <h2>Proceed to Payment</h2>
         <p>Total Price: ₹{{ total_price }}</p>
@@ -53,11 +8,8 @@
     </div>
 
     <script>
-        // Example function for handling the payment button click
         function proceedToPayment() {
             alert("Redirecting to payment gateway...");
-            // Here you can add your payment processing logic
         }
     </script>
-</body>
-</html>
+{% endblock %}

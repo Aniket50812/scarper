@@ -1,90 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-        .cart-items {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .cart-item {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
-        .cart-item h3 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-        .cart-item p {
-            margin: 5px 0;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .btn:hover {
-            background-color: #218838;
-        }
-        form {
-            display: inline-block;
-            margin: 0 10px;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <header>
-        <h1>Your Cart</h1>
-    </header>
-
+{% block content %}
     <div class="container">
+        <h2>Your Cart</h2>
+        
         <div class="cart-items">
             {% for book_id, item in cart.items() %}
                 <div class="cart-item">
-                    <h3>{{ item.title }}</h3>
-                    <p>Price: ₹{{ item.price }}</p>
-                    <p>Quantity: 
-                        <form action="{{ url_for('update_quantity') }}" method="POST" style="display:inline;">
-                            <input type="hidden" name="book_id" value="{{ book_id }}">
-                            <button type="submit" name="action" value="decrease">-</button>
-                            {{ item.quantity }}
-                            <button type="submit" name="action" value="increase">+</button>
-                        </form>
-                    </p>
-                    <p>Total Price: ₹{{ item.quantity * item.price }}</p>
+                    <div class="cart-item-info">
+                        <h3>{{ item.title }}</h3>
+                        <p>Price: ₹{{ item.price }}</p>
+                        <p>Total Price: ₹{{ item.quantity * item.price }}</p>
+                    </div>
+                    
+                    <div class="cart-item-quantity">
+                        <p>Quantity: 
+                            <form action="{{ url_for('update_quantity') }}" method="POST" style="display:inline;">
+                                <input type="hidden" name="book_id" value="{{ book_id }}">
+                                <button type="submit" name="action" value="decrease" class="quantity-btn">-</button>
+                                <span class="quantity">{{ item.quantity }}</span>
+                                <button type="submit" name="action" value="increase" class="quantity-btn">+</button>
+                            </form>
+                        </p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
 
-        <h3>Total Price: ₹{{ total_price }}</h3>
+        <div class="cart-total">
+            <h3>Total Price: ₹{{ total_price }}</h3>
+        </div>
 
-        <a href="{{ url_for('proceed_to_pay') }}" class="btn">Proceed to Pay</a>
+        <a href="{{ url_for('proceed_to_pay') }}" class="btn proceed-btn">Proceed to Pay</a>
     </div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,6 +1,7 @@
 import os
 import qrcode  
 import datetime  
+import sqlite3
 from datetime import timedelta  
 from flask import Flask, render_template, session, redirect, url_for, request
 
@@ -10,49 +11,44 @@ app = Flask(__name__)
 # Generate a secret key using os.urandom(24)
 app.secret_key = os.urandom(24)
 
-# List of books and offers (you can use your existing data here)
-books = [
-    {"title": "The Great Adventure", "author": "John Doe", "price": "₹1499", "availability": "In Stock", "category": "Adventure"},
-    {"title": "Learning Python", "author": "Jane Smith", "price": "₹2199", "availability": "Out of Stock", "category": "Programming"},
-    {"title": "Flask for Beginners", "author": "Jake White", "price": "₹1299", "availability": "In Stock", "category": "Web Development"},
-    {"title": "Data Science Handbook", "author": "Alice Cooper", "price": "₹1999", "availability": "In Stock", "category": "Data Science"},
-    {"title": "Machine Learning Mastery", "author": "John Green", "price": "₹2499", "availability": "In Stock", "category": "Data Science"},
-    {"title": "Python for Data Analysis", "author": "David Brown", "price": "₹1799", "availability": "Out of Stock", "category": "Data Science"},
-    {"title": "The Python Programming Guide", "author": "Emma White", "price": "₹1599", "availability": "In Stock", "category": "Programming"},
-    {"title": "Advanced Flask Development", "author": "Robert Black", "price": "₹2599", "availability": "In Stock", "category": "Web Development"},
-    {"title": "Intro to Web Development", "author": "Lily Green", "price": "₹1399", "availability": "Out of Stock", "category": "Web Development"},
-    {"title": "AI in Practice", "author": "George Harris", "price": "₹2799", "availability": "In Stock", "category": "Artificial Intelligence"},
-    {"title": "Mobile App Development for Beginners", "author": "Sophia Lee", "price": "₹2399", "availability": "In Stock", "category": "Mobile Development"},
-    {"title": "Android Development Essentials", "author": "David King", "price": "₹2599", "availability": "In Stock", "category": "Mobile Development"},
-    {"title": "iOS Development with Swift", "author": "Olivia Green", "price": "₹2699", "availability": "In Stock", "category": "Mobile Development"},
-    {"title": "Cross-Platform Mobile Development", "author": "Emma White", "price": "₹2199", "availability": "In Stock", "category": "Mobile Development"},
-    {"title": "Flutter for Beginners", "author": "Lucas Turner", "price": "₹2399", "availability": "In Stock", "category": "Mobile Development"},
-    {"title": "React Native Cookbook", "author": "James Stone", "price": "₹2599", "availability": "In Stock", "category": "Mobile Development"},
-    {"title": "Mastering SQL", "author": "Ethan Clark", "price": "₹1599", "availability": "In Stock", "category": "Database"},
-    {"title": "MongoDB for Beginners", "author": "Benjamin Clark", "price": "₹1799", "availability": "In Stock", "category": "Database"},
-    {"title": "Database Management Systems", "author": "Sophie Green", "price": "₹1999", "availability": "In Stock", "category": "Database"},
-    {"title": "SQL for Data Science", "author": "Emily Adams", "price": "₹1799", "availability": "In Stock", "category": "Database"},
-    {"title": "PostgreSQL Essentials", "author": "Rachel Adams", "price": "₹1899", "availability": "In Stock", "category": "Database"},
-    {"title": "NoSQL Databases Explained", "author": "Olivia Scott", "price": "₹2199", "availability": "In Stock", "category": "Database"},
-    {"title": "UX/UI Design Essentials", "author": "Lucas White", "price": "₹1799", "availability": "In Stock", "category": "Design"},
-    {"title": "Design Patterns for Developers", "author": "David Brown", "price": "₹1999", "availability": "In Stock", "category": "Design"},
-    {"title": "Web Design for Beginners", "author": "Sophia Turner", "price": "₹1699", "availability": "In Stock", "category": "Design"},
-    {"title": "UX Design Principles", "author": "Olivia Green", "price": "₹1799", "availability": "In Stock", "category": "Design"},
-    {"title": "The Art of UI Design", "author": "John Doe", "price": "₹2499", "availability": "In Stock", "category": "Design"},
-    {"title": "Web Design Best Practices", "author": "Lucas Turner", "price": "₹2399", "availability": "In Stock", "category": "Design"},
-    {"title": "Cloud Computing Basics", "author": "James Stone", "price": "₹1999", "availability": "In Stock", "category": "Cloud Computing"},
-    {"title": "AWS Certified Solutions Architect", "author": "Sara White", "price": "₹2699", "availability": "In Stock", "category": "Cloud Computing"},
-    {"title": "Google Cloud Essentials", "author": "Rachel Adams", "price": "₹2199", "availability": "In Stock", "category": "Cloud Computing"},
-    {"title": "Microsoft Azure for Beginners", "author": "David King", "price": "₹2399", "availability": "In Stock", "category": "Cloud Computing"},
-    {"title": "Cloud Native Development", "author": "Olivia Scott", "price": "₹2599", "availability": "In Stock", "category": "Cloud Computing"},
-    {"title": "Docker and Kubernetes for Cloud", "author": "Benjamin White", "price": "₹2499", "availability": "In Stock", "category": "Cloud Computing"},
-    {"title": "Digital Marketing Essentials", "author": "William Scott", "price": "₹1799", "availability": "In Stock", "category": "Marketing"},
-    {"title": "SEO for Beginners", "author": "Benjamin White", "price": "₹1599", "availability": "In Stock", "category": "Marketing"},
-    {"title": "Social Media Marketing Guide", "author": "Sophia Turner", "price": "₹1899", "availability": "In Stock", "category": "Marketing"},
-    {"title": "Content Marketing Strategy", "author": "David Brown", "price": "₹2199", "availability": "In Stock", "category": "Marketing"},
-    {"title": "Growth Hacking Techniques", "author": "James Stone", "price": "₹2299", "availability": "In Stock", "category": "Marketing"},
-    {"title": "Influencer Marketing Guide", "author": "Rachel Adams", "price": "₹2499", "availability": "In Stock", "category": "Marketing"}
-]
+DATABASE = 'users.db'
+
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_products_db():
+    with get_db() as db:
+        db.execute(''' 
+            CREATE TABLE IF NOT EXISTS products ( 
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                name TEXT NOT NULL, 
+                description TEXT, 
+                price REAL NOT NULL 
+            ) 
+        ''') 
+        db.commit()
+
+def init_users_db():
+    with get_db() as db:
+        db.execute(''' 
+            CREATE TABLE IF NOT EXISTS users ( 
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                username TEXT NOT NULL UNIQUE, 
+                password TEXT NOT NULL 
+            ) 
+        ''') 
+        db.commit()
+
+def setup():
+    if not os.path.exists(DATABASE):
+        init_products_db()  
+        init_users_db()     
+
+setup()  
+print("Database setup complete")
+
 
 offers = [
     {"title": "Buy 1 Get 1 Free", "description": "Buy one book and get another one for free!"},
@@ -60,16 +56,54 @@ offers = [
     {"title": "50% Off on Selected Books", "description": "Check out the selected books with 50% off!"}
 ]
 
+
 @app.route('/')
 def index():
-    categories = set(book['category'] for book in books)
-    return render_template('index.html', books=books, categories=categories)
+    if 'username' not in session:
+        # Redirect to login page if not logged in
+        return redirect(url_for('login'))
 
-@app.route('/category/<category_name>')
-def category(category_name):
-    filtered_books = [book for book in books if book['category'] == category_name]
-    categories = set(book['category'] for book in books)
-    return render_template('index.html', books=filtered_books, categories=categories)
+    # Fetch books from the database
+    with get_db() as db:
+        books = db.execute('SELECT * FROM books').fetchall()
+
+    # Render index.html with books data
+    return render_template('index.html', books=books)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Check if the user exists in the database and handle login logic
+        with get_db() as db:
+            user = db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+            if user and user['password'] == password:  # Add proper password hashing for production
+                session['username'] = username
+                return redirect(url_for('index'))
+            else:
+                return "Invalid login credentials, please try again."
+
+    return render_template('login.html')
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    username = request.form['username']
+    password = request.form['password']
+    
+    with get_db() as db:
+        try:
+            db.execute('INSERT INTO users (username, password) VALUES (?, ?)', 
+                       (username, password))
+            db.commit()
+            return redirect(url_for('index'))
+        except sqlite3.IntegrityError:
+            return 'Username already exists'
+
+
 
 @app.route('/offers')
 def offers_page():
@@ -81,28 +115,31 @@ def cart():
     total_price = sum(item['quantity'] * item['price'] for item in cart_items.values())
     return render_template('cart.html', cart=cart_items, total_price=total_price)
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
 @app.route('/add_to_cart/<int:book_id>', methods=['POST'])
 def add_to_cart(book_id):
-    book = books[book_id]
-    cart = session.get('cart', {})
-    
-    price = float(book['price'][1:])  # Convert price to float (removing ₹ symbol)
-    
-    if str(book_id) in cart:
-        cart[str(book_id)]['quantity'] += 1
-    else:
-        cart[str(book_id)] = {
-            'title': book['title'],
-            'price': price,  # Store the price as float
-            'quantity': 1,
-        }
-    
-    session['cart'] = cart
+    # Fetch the book details from the database using the book_id
+    with get_db() as db:
+        book = db.execute('SELECT * FROM books WHERE id = ?', (book_id,)).fetchone()
+
+    if book:
+        cart = session.get('cart', {})
+
+        price = float(book['price'])  # No need to remove ₹ symbol if the price is stored as float
+        title = book['title']
+
+        if str(book_id) in cart:
+            cart[str(book_id)]['quantity'] += 1
+        else:
+            cart[str(book_id)] = {
+                'title': title,
+                'price': price,
+                'quantity': 1,
+            }
+
+        session['cart'] = cart
+
     return redirect(url_for('cart'))
+
 
 @app.route('/update_quantity', methods=['POST'])
 def update_quantity():
@@ -123,8 +160,13 @@ def update_quantity():
 @app.route('/proceed_to_pay')
 def proceed_to_pay():
     cart_items = session.get('cart', {})
+    
+    if not cart_items:  # Check if cart is empty
+        return redirect(url_for('cart'))  # Redirect back to cart if no products are selected
+
     total_price = sum(item['quantity'] * item['price'] for item in cart_items.values())
     return render_template('proceed_to_pay.html', cart=cart_items, total_price=total_price)
+
 
 @app.route('/process_payment', methods=['POST'])
 def process_payment():
@@ -175,19 +217,18 @@ def process_payment():
 
     return redirect(url_for('order_summary'))
 
-
 @app.route('/order_summary', methods=['POST', 'GET'])
 def order_summary():
-    # Assuming you have order data in the form of a dictionary or model instance
     order_data = session.get('order_summary', None)  # Get order summary from session
-
-    # Calculate the delivery date (5 days from today)
-    delivery_date = (datetime.datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d')
 
     if not order_data:
         return redirect(url_for('index'))  # If no order found, redirect to homepage
 
+    # Calculate the delivery date (5 days from today)
+    delivery_date = (datetime.datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d')
+
     return render_template('order_summary.html', order_summary=order_data, delivery_date=delivery_date)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

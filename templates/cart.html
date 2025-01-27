@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <h2>Your Cart</h2>
-        
+
         <div class="cart-items">
             {% for book_id, item in cart.items() %}
                 <div class="cart-item">
@@ -31,6 +31,57 @@
             <h3>Total Price: ₹{{ total_price }}</h3>
         </div>
 
-        <a href="{{ url_for('proceed_to_pay') }}" class="btn proceed-btn">Proceed to Pay</a>
+        <a href="#" class="btn proceed-btn" id="proceed-btn">Proceed to Pay</a>
     </div>
+
+    <!-- Modal for empty cart -->
+    <div id="empty-cart-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h2>Please select a product before proceeding!</h2>
+        </div>
+    </div>
+
+    <script>
+        // Get the elements
+        const proceedBtn = document.getElementById("proceed-btn");
+        const modal = document.getElementById("empty-cart-modal");
+        const closeModalBtn = document.getElementById("close-modal");
+
+        // Function to show the modal
+        const showModal = () => {
+            modal.style.display = "block";
+        };
+
+        // Hide the modal
+        const hideModal = () => {
+            modal.style.display = "none";
+        };
+
+        // Get the cart items as a JS object from Jinja (fixed the issue with the cart)
+        const cartItems = JSON.parse('{{ cart | tojson | safe }}');
+
+        // Event listener for the Proceed button
+        proceedBtn.addEventListener("click", (e) => {
+            // If cart is empty, prevent proceeding and show the modal
+            if (Object.keys(cartItems).length === 0) {
+                e.preventDefault();  // Prevent proceeding to pay if cart is empty
+                showModal();  // Show the modal
+            } else {
+                // If cart is not empty, redirect to the payment page
+                window.location.href = "{{ url_for('proceed_to_pay') }}";
+            }
+        });
+
+        // Close the modal when clicking the close button
+        closeModalBtn.addEventListener("click", hideModal);
+
+        // Close the modal if the user clicks outside the modal content
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                hideModal();
+            }
+        });
+    </script>
+
 {% endblock %}

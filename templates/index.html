@@ -17,12 +17,14 @@
                 <div class="book-card">
                     <h3>{{ book.title }}</h3>
                     <p><strong>Author:</strong> {{ book.author }}</p>
-                    <p><strong>Price:</strong> {{ book.price }}</p>
+                    <p><strong>Price:</strong> ₹{{ book.price }}</p>
                     <p><strong>Availability:</strong> {{ book.availability }}</p>
-                    <form action="{{ url_for('add_to_cart', book_id=loop.index0) }}" method="POST">
+                    <form action="{{ url_for('add_to_cart', book_id=book.id) }}" method="POST">
                         <button type="submit" class="btn">Add to Cart</button>
                     </form>
                 </div>
+            {% else %}
+                <p>No books available at the moment.</p>
             {% endfor %}
         </div>
     </section>

@@ -7,31 +7,39 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-    
+    <!-- Navbar Section -->
     <section class="navbar-section">
         <header>
             <nav>
                 <ul class="navbar">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     <li><a href="{{ url_for('offers_page') }}">Offers</a></li>
-                    <li><a href="#categories" class="categories-btn">Categories</a></li>
-                  
                     <div class="navbar-right">
-                        <li><a href="{{ url_for('cart') }}">Cart</a></li>
-                        <li><a href="{{ url_for('login') }}">Register</a></li>
+                        {% if 'username' in session %}
+                            <!-- Welcome message if logged in -->
+                            <li class="welcome-msg">Welcome, <strong class="blinking">{{ session['username'] }}</strong></li>
+                            <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                            <li><a href="{{ url_for('login') }}">Logout</a></li>
+                        {% else %}
+                            <!-- Show Login link if not logged in -->
+                            <li><a href="{{ url_for('login') }}">Login</a></li>
+                        {% endif %}
                     </div>
                 </ul>
             </nav>
         </header>
     </section>
 
-    <!-- Page Content -->
-    <div class="main-title">
-        <h1>Books to Hunt</h1>
-    </div>
+    <!-- Main Content Section -->
+    <main>
+        <div class="main-title">
+            <h1>Books to Hunt</h1>
+        </div>
 
-    {% block content %}{% endblock %}
-
+        <!-- Content Block for Dynamic Page Content -->
+        {% block content %}
+        {% endblock %}
+    </main>
+    
 </body>
 </html>

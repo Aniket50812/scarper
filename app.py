@@ -1,9 +1,9 @@
 import os
-import qrcode  
+import qrcode   # type: ignore
 import datetime  
 import sqlite3
 from datetime import timedelta  
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, render_template, session, redirect, url_for, request # type: ignore
 
 
 app = Flask(__name__)
